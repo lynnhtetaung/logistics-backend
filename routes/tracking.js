@@ -5,7 +5,8 @@ const Tracking = require('../models/tracking');
 // Create a new tracking
 router.post('/', async (req, res) => {
   try {
-    const { name, maccNo, blNo, selectivelyNo, noOfPackages, place, itemStatus, status, created_by, created_date, updated_date } = req.body;
+    
+    const { name, maccNo, blNo, selectivelyNo, noOfPackages, place, itemStatus, type, status, created_by, created_date, updated_date } = req.body;
     const newTracking = new Tracking({ 
       name, 
       maccNo,
@@ -13,7 +14,8 @@ router.post('/', async (req, res) => {
       selectivelyNo, 
       noOfPackages, 
       place, 
-      itemStatus, 
+      itemStatus,
+      type, 
       status, 
       created_by, 
       created_date, 
@@ -51,10 +53,10 @@ router.get('/:id', async (req, res) => {
 // Update an tracking by ID
 router.put('/:id', async (req, res) => {
   try {
-    const { name, maccNo, blNo, selectivelyNo, noOfPackages, place, itemStatus, status, updated_by } = req.body;
+    const { name, maccNo, blNo, selectivelyNo, noOfPackages, place, itemStatus, type, status, updated_by } = req.body;
     const updatedTracking = await Tracking.findByIdAndUpdate(
       req.params.id, 
-      { name, maccNo, blNo, selectivelyNo, noOfPackages, place, itemStatus, status, updated_by },
+      { name, maccNo, blNo, selectivelyNo, noOfPackages, place, itemStatus, type, status, updated_by },
       { new: true, runValidators: true }
     );
     if (!updatedTracking) return res.status(404).send();
