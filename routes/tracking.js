@@ -69,16 +69,16 @@ router.put('/:id', async (req, res) => {
 // Delete an tracking by ID
 router.delete('/:id', async (req, res) => {
   try {
-    const { updated_by } = req.body;
-    const deletedTracking = await Tracking.findByIdAndDelete(
-      req.params.id,       
-      { status: 'deleted', updated_by },
-      { new: true}
-    );
-    if (!deletedTracking) return res.status(404).send();
-    res.status(200).send(deletedTracking);
+      const deletedTracking = await Tracking.findById(req.params.id);
+      if (!deletedTracking) {
+          return res.status(404).json({ message: 'Item not found' });
+      }
+      deletedTracking.status = 'deleted';
+      await deletedTracking.save();
+      res.json({ message: 'Item soft deleted successfully' });
   } catch (err) {
-    res.status(500).send(err);
+      console.error(err);
+      res.status(500).json({ message: 'Server Error' });
   }
 });
 
