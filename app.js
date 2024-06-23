@@ -13,7 +13,7 @@ var trackingsRouter = require('./routes/tracking');
 
 var app = express();
 
-// Serve static files from the Vue.js build directory
+// Serve static files from the Vue.js frontend build directory
 app.use(express.static(path.join(__dirname, 'vue-sso-project/dist')));
 
 // view engine setup
@@ -36,7 +36,7 @@ app.use('/api/trackings', trackingsRouter);
 
 // Serve the Vue.js app for all other routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'vue-sso-project/dist/index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // catch 404 and forward to error handler
@@ -55,8 +55,10 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/logistic_manage')
+// Connect to MongoDB with localhost manually
+// mongoose.connect('mongodb://localhost:27017/logistic_manage') 
+// Connect to MongoDB with docker
+mongoose.connect('mongodb://mongo:27017/logistic_manage')
   .then(() => {
     console.log('MongoDB connected');
   })
